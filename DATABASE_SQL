@@ -1,31 +1,55 @@
 // sql queries to setup our project.
 
 
-create table User(
-    id integer auto_increment primary key,
-    name varchar,
-    password varchar,
-    phone varchar UNIQUE,
-    email varchar UNIQUE
+CREATE TABLE User (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL
+);
+This statement creates a User table with the following columns:
+
+id: An integer that auto-increments and serves as the primary key.
+name: A non-null varchar field with a maximum length of 255 characters.
+password: A non-null varchar field with a maximum length of 255 characters.
+phone: A non-null varchar field with a maximum length of 20 characters, which must be unique.
+email: A non-null varchar field with a maximum length of 255 characters, which must be unique.
+----------------------------------------------------------------------------------------------
+
+CREATE TABLE Account (
+    id INT PRIMARY KEY,
+    card_number VARCHAR(20) UNIQUE,
+    cvv VARCHAR(4),
+    balance DOUBLE,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES User(id)
+);
+This statement creates an Account table with the following columns:
+
+id: An integer that serves as the primary key.
+card_number: A varchar field with a maximum length of 20 characters, which must be unique.
+cvv: A varchar field with a maximum length of 4 characters.
+balance: A double field to store the account balance.
+user_id: An integer field that references the id field in the User table to establish a foreign key relationship.
+----------------------------------------------------------------------------------------------
+
+// Transaction_History - because Transaction as a name is not allowed
+CREATE TABLE Transaction_History (
+    id INT PRIMARY KEY,
+    type VARCHAR(50),
+    amount DOUBLE,
+    notes TEXT,
+    timestamp DATE,
+    account_id INT,
+    FOREIGN KEY (account_id) REFERENCES Account(id)
 );
 
-create table Account(
-	id integer primary key,
-  	card_number varchar UNIQUE,
-  	cvv varchar,
-  	balance double,
-  	user_id integer,
-  	FOREIGN KEY (user_id)
-  	REFERENCES User(id)
-);
-// Transaction_History - because Transaction as a name is not allowed
-create table Transaction_History(
-	id integer primary key,
-  	type varchar,
-  	amount double,
-  	notes text,
-  	timestamp date,
-  	account_id integer,
-  	FOREIGN KEY (account_id)
-  	REFERENCES Account(id)
-);
+This statement creates a Transaction_History table with the following columns:
+
+id: An integer that serves as the primary key.
+type: A varchar field with a maximum length of 50 characters to store the type of transaction.
+amount: A double field to store the transaction amount.
+notes: A text field to store additional notes about the transaction.
+timestamp: A date field to store the date of the transaction.
+account_id: An integer field that references the id field in the Account table to establish a foreign key relationship.
