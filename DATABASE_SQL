@@ -1,0 +1,31 @@
+// sql queries to setup our project.
+
+
+create table User(
+    id integer auto_increment primary key,
+    name varchar,
+    password varchar,
+    phone varchar UNIQUE,
+    email varchar UNIQUE
+);
+
+create table Account(
+	id integer primary key,
+  	card_number varchar UNIQUE,
+  	cvv varchar,
+  	balance double,
+  	user_id integer,
+  	FOREIGN KEY (user_id)
+  	REFERENCES User(id)
+);
+// Transaction_History - because Transaction as a name is not allowed
+create table Transaction_History(
+	id integer primary key,
+  	type varchar,
+  	amount double,
+  	notes text,
+  	timestamp date,
+  	account_id integer,
+  	FOREIGN KEY (account_id)
+  	REFERENCES Account(id)
+);
