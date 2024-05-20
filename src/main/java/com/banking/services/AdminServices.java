@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.banking.entity.User;
 
@@ -23,5 +24,13 @@ public class AdminServices {
 	public List<User> getAllCustomers() {
 		System.out.println(listUsers);
 		return listUsers;
+	}
+	public User getCustomerById(int id) {
+		for(int i=0;i<listUsers.size();i++ ) {
+			if(listUsers.get(i).getId() == id) {
+				return listUsers.get(i);
+			}
+		}
+		return null;
 	}
 }
